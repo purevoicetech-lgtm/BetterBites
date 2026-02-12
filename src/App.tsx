@@ -256,19 +256,42 @@ const App: React.FC = () => {
                             ref={videoRef}
                             autoPlay
                             playsInline
+                            muted
                             className="w-full h-full object-cover"
                         />
 
-                        {!stream && (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 backdrop-blur-sm text-slate-400 p-8 text-center">
-                                <span className="material-icons-round text-6xl mb-4">camera_enhance</span>
-                                <p className="text-sm font-medium">Camera preview not available</p>
-                                <button
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className="mt-4 px-6 py-2 bg-primary text-black font-bold rounded-full text-xs"
-                                >
-                                    USE FILE PICKER
-                                </button>
+                        {(cameraError || !stream) && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 shadow-inner text-slate-400 p-8 text-center z-40">
+                                <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-6 border border-slate-700">
+                                    <span className="material-icons-round text-4xl text-slate-500">
+                                        {cameraError?.includes('permission') ? 'block' : 'videocam_off'}
+                                    </span>
+                                </div>
+
+                                <h3 className="text-white font-bold mb-2">Camera Access Required</h3>
+                                <p className="text-xs text-slate-500 mb-8 max-w-[240px] leading-relaxed">
+                                    {cameraError || "Adjusting lenses or waiting for permission. BetterBite needs camera access to scan products."}
+                                </p>
+
+                                <div className="space-y-3 w-full max-w-[200px]">
+                                    <button
+                                        onClick={() => startCamera()}
+                                        className="w-full py-3 bg-primary text-black font-bold rounded-xl text-xs shadow-lg shadow-primary/20 active:scale-95 transition-transform"
+                                    >
+                                        RETRY CAMERA
+                                    </button>
+                                    <button
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className="w-full py-3 bg-slate-800 text-white font-bold rounded-xl text-xs hover:bg-slate-700 transition-colors"
+                                    >
+                                        UPLOAD PHOTO
+                                    </button>
+                                </div>
+
+                                <div className="mt-8 flex items-center gap-2 text-[10px] text-slate-600 font-medium tracking-tight">
+                                    <span className="material-icons-round text-sm">lock</span>
+                                    SECURE HTTPS CONNECTION
+                                </div>
                             </div>
                         )}
 
