@@ -468,9 +468,11 @@ const App: React.FC = () => {
                                 </div>
 
                                 {/* Healthiest Choice Badge */}
-                                <div className="absolute top-0 right-0 bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-2xl flex items-center gap-1">
-                                    <span className="material-icons-round text-xs">verified</span>
-                                    High Score
+                                <div className={`absolute top-0 right-0 ${getScoreColorClass(lastAnalysis.score).replace('text-', 'bg-')}/20 ${getScoreColorClass(lastAnalysis.score)} text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-2xl flex items-center gap-1`}>
+                                    <span className="material-icons-round text-xs">
+                                        {lastAnalysis.score >= 75 ? 'verified' : lastAnalysis.score >= 40 ? 'info' : 'report'}
+                                    </span>
+                                    {lastAnalysis.score >= 75 ? 'High Score' : lastAnalysis.score >= 40 ? 'Mid Score' : 'Low Score'}
                                 </div>
 
                                 <div className="text-center mb-6">
