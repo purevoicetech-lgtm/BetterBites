@@ -1,5 +1,4 @@
-
-import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from "@google/genai";
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 import { SYSTEM_INSTRUCTION } from "../constants";
 import { HealthAnalysis } from "../types";
 
@@ -11,7 +10,8 @@ const SAFETY_SETTINGS = [
 ];
 
 export async function analyzeProduct(base64Images: string[]): Promise<HealthAnalysis | null> {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  const apiKey = import.meta.env.VITE_API_KEY || "";
+  const genAI = new GoogleGenerativeAI(apiKey);
 
   const imageParts = base64Images.map(img => {
     const cleanBase64 = img.includes(',') ? img.split(',')[1] : img;
@@ -19,7 +19,7 @@ export async function analyzeProduct(base64Images: string[]): Promise<HealthAnal
   });
 
   try {
-    const model = ai.getGenerativeModel({
+    const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       systemInstruction: SYSTEM_INSTRUCTION
     });
