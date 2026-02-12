@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5de619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#162111",
+                        "sage": "#8da383",
+                        "cream": "#fdfbf7",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Comparison Tray Camera</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 flex items-center justify-center min-h-screen p-0 m-0">
+<!-- Mobile Screen Container -->
+<div class="w-[390px] h-[844px] bg-black rounded-[3rem] shadow-2xl overflow-hidden relative border-[8px] border-slate-800 flex flex-col">
+<!-- Camera Viewfinder -->
+<div class="absolute inset-0 bg-slate-900">
+<img class="w-full h-full object-cover opacity-80" data-alt="Groceries on a wooden shelf in a store" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxTNc8L8nUSuWxsBcyA9uYbpkUiCfXAc3urRWob9EA7qn_jevVEru8Kje5qyCzaDI4tcun0pR2CEEhXW2A8Mfhfn5PS7KpT4QhTVa2pYJ3ny0RzTcF3er4c-_8FcC3YA8T7xCwfJrvnw_b9QlCXWKSN69XF0Ad3HNHComzMkOjp2mnLu8neZ8N_BiESEgu1Bl4PWs_1cMHnO8DoxXNnY_X61kHT9agM0LLLBp0na-y9JeOwpO0821QSljjzEnw94oOX7en_ob1hhU"/>
+<!-- Scanning Reticle -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-64 h-64 border-2 border-primary/50 rounded-xl flex items-center justify-center">
+<div class="w-12 h-12 border-t-2 border-l-2 border-primary absolute top-0 left-0 rounded-tl-xl"></div>
+<div class="w-12 h-12 border-t-2 border-r-2 border-primary absolute top-0 right-0 rounded-tr-xl"></div>
+<div class="w-12 h-12 border-b-2 border-l-2 border-primary absolute bottom-0 left-0 rounded-bl-xl"></div>
+<div class="w-12 h-12 border-b-2 border-r-2 border-primary absolute bottom-0 right-0 rounded-br-xl"></div>
+</div>
+</div>
+</div>
+<!-- Top Navigation Overlay -->
+<div class="relative z-10 px-6 pt-14 pb-4 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent">
+<button class="w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-full text-white">
+<span class="material-icons">close</span>
+</button>
+<!-- AI Status Indicator -->
+<div class="flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-xl border border-primary/30 rounded-full">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_rgba(93,230,25,0.8)]"></div>
+<span class="text-xs font-semibold text-white uppercase tracking-wider">Ready to scan</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-full text-white">
+<span class="material-icons">flash_on</span>
+</button>
+</div>
+<!-- Spacer for camera view -->
+<div class="flex-grow"></div>
+<!-- Bottom UI Controls -->
+<div class="relative z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-12">
+<!-- Comparison Tray -->
+<div class="px-4 mb-6">
+<div class="bg-cream/95 dark:bg-slate-900/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-white/20">
+<div class="flex items-center justify-between mb-3 px-1">
+<span class="text-[10px] font-bold text-sage dark:text-primary uppercase tracking-widest">Comparison Tray</span>
+<span class="text-[10px] font-medium text-slate-400">2 / 4 items</span>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+<!-- Scanned Item 1 -->
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-lg overflow-hidden border-2 border-primary/40 bg-white">
+<img class="w-full h-full object-cover" data-alt="Greek yogurt container label" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhlHf4g6rvaNB098peoJ3V4JwPcSh5rKW7D6f-r6RPs4yX6oKpadWFNAB7p6xJjNquMq8rgyAdC_DwuNGVB5TMWqLkyjn_uT6RxZqlupl-kUUbk-CKHs9lHE1_RhKEAFttWWVD4PKALazcpguEc36g-sLbpWbsq97Ml3D9aXitfjyvn7-fTZ-408s99sI5maUSlSAHo6fJwo4if7sdsaAPQfC19rf9GSFAn8wp-obHAOvrVFTRrlMg0p5NZvD8owv8FgBmFHv8lF4"/>
+</div>
+<button class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-cream">
+<span class="material-icons text-[12px]">close</span>
+</button>
+</div>
+<!-- Scanned Item 2 -->
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-lg overflow-hidden border-2 border-primary/40 bg-white">
+<img class="w-full h-full object-cover" data-alt="Oat milk carton label" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUQCIyuoLzCHZWyP0XpyW-0oRYNCOg5Zb_Y5baC3yMZMDZlIgrWRHkt_NIF24CkjwHHVDzkTcLHxi6dp-RTGz_cV8DHv0NBmEgY7k92pINLqz-sNz_HnzhLHxZsOoaGBGpCMHXl_IaGIxhIHo_FpNo7i_JbHXIKQarS9loXoAFRfaFjBnaV-xkV2Jze8ZTfk6Sbt7Q92p7J4x3E6dd-O1PhCIDKhgX0jPeOEusp1Fp6ZvaiTH82L7aEvmCIGkxJKf0F58-_RwBGU"/>
+</div>
+<button class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-cream">
+<span class="material-icons text-[12px]">close</span>
+</button>
+</div>
+<!-- Empty Slot -->
+<div class="flex-shrink-0 w-16 h-16 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400">
+<span class="material-icons text-lg">add</span>
+</div>
+<!-- Comparison Button Action -->
+<div class="flex-grow pl-2 flex items-center">
+<button class="bg-primary text-black font-bold text-xs px-4 py-3 rounded-xl flex items-center gap-2 whitespace-nowrap shadow-lg shadow-primary/20">
+                                COMPARE
+                                <span class="material-icons text-sm">analytics</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Controls -->
+<div class="bg-cream dark:bg-background-dark px-8 pt-8 pb-12 rounded-t-[2.5rem] flex flex-col items-center gap-6">
+<button class="text-sage dark:text-primary/80 font-medium text-sm hover:opacity-70 transition-opacity">
+                    Upload from gallery
+                </button>
+<!-- Shutter Area -->
+<div class="flex items-center justify-between w-full">
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-icons text-slate-400">history</span>
+</div>
+<button class="w-20 h-20 rounded-full border-[6px] border-primary p-1.5 flex items-center justify-center group active:scale-95 transition-transform">
+<div class="w-full h-full bg-white dark:bg-slate-200 rounded-full shadow-inner"></div>
+</button>
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-icons text-slate-400">settings</span>
+</div>
+</div>
+<!-- iOS Home Indicator -->
+<div class="w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mt-2"></div>
+</div>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

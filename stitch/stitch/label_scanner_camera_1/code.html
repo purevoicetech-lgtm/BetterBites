@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Label Scanner Camera</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102210",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Lexend', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .camera-overlay {
+            background: linear-gradient(0deg, rgba(16, 34, 16, 0.4) 0%, rgba(16, 34, 16, 0) 20%, rgba(16, 34, 16, 0) 80%, rgba(16, 34, 16, 0.4) 100%);
+        }
+        .scan-frame {
+            box-shadow: 0 0 0 9999px rgba(16, 34, 16, 0.4);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="relative h-screen w-full max-w-md mx-auto flex flex-col overflow-hidden shadow-2xl bg-black">
+<div class="relative h-[72%] w-full overflow-hidden">
+<img alt="Grocery store aisle with fresh produce" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb83Z0u6qHMVwqJIhMWyYyN-hdKNQzUMXp1YwoskzE7gdi9c94I3a2JEbDCRJErScxKotT0rE-3Qbj7wmjM3aqQom7JE_fYMI33fNFkc6i2lsHpdi9qzTOU9d_SPZscxWKcVs6lLG_aTl3pOZEUUF-_AL2gG1FvB3ON8ITCSORsYG1s7NGLBQPElimy0CyqZPdQcKmG_nZzg_JcddUQyyyp53AFlyAd73gXofwHKNZGs2-VGUgci_-H089NS43fE0WlkbteeJW2-Y"/>
+<div class="absolute inset-0 camera-overlay pointer-events-none"></div>
+<div class="absolute inset-0 flex items-center justify-center p-8">
+<div class="w-full aspect-[4/5] scan-frame rounded-2xl border-2 border-primary/50 relative">
+<div class="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl"></div>
+<div class="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl"></div>
+<div class="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl"></div>
+<div class="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl"></div>
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-primary/40 shadow-[0_0_15px_rgba(19,236,19,0.8)]"></div>
+</div>
+</div>
+<div class="absolute top-0 left-0 right-0 p-6 flex justify-between items-start">
+<button class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-icons-round">close</span>
+</button>
+<div class="bg-black/40 backdrop-blur-lg px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
+<span class="material-icons-round text-primary text-sm">energy_savings_leaf</span>
+<span class="text-xs font-medium text-white tracking-wide uppercase">10 free scans remaining</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-icons-round">flash_on</span>
+</button>
+</div>
+<div class="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3">
+<div class="flex gap-2">
+<div class="w-8 h-1 rounded-full bg-primary shadow-lg shadow-primary/20"></div>
+<div class="w-8 h-1 rounded-full bg-white/30 backdrop-blur-sm"></div>
+<div class="w-8 h-1 rounded-full bg-white/30 backdrop-blur-sm"></div>
+</div>
+<div class="bg-primary/20 backdrop-blur-md border border-primary/40 px-3 py-1 rounded-full">
+<p class="text-[10px] font-bold text-primary uppercase tracking-[0.1em]">Multi-shot Mode (1/3)</p>
+</div>
+</div>
+</div>
+<div class="flex-1 bg-background-light dark:bg-background-dark rounded-t-3xl -mt-6 relative z-10 flex flex-col items-center justify-between py-6 px-6">
+<div class="flex items-center gap-8 mb-2">
+<button class="text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Nutrition</button>
+<button class="text-sm font-bold text-primary uppercase tracking-wider relative">
+                    Label Scan
+                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></span>
+</button>
+<button class="text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Compare</button>
+</div>
+<div class="w-full flex items-center justify-between px-4">
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-active:scale-95 transition-transform">
+<span class="material-icons-round">history</span>
+</div>
+<span class="text-[9px] font-semibold text-slate-500 uppercase">History</span>
+</button>
+<div class="relative flex items-center gap-4">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-24 h-24 rounded-full border-4 border-primary/20"></div>
+<button class="w-20 h-20 rounded-full bg-white dark:bg-slate-900 border-[6px] border-primary shadow-xl active:scale-90 transition-transform flex items-center justify-center z-10">
+<div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary text-4xl">eco</span>
+</div>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 group">
+<div class="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm active:scale-95 transition-transform">
+<img alt="Gallery Preview" class="absolute inset-0 w-full h-full object-cover opacity-60 grayscale-[50%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb83Z0u6qHMVwqJIhMWyYyN-hdKNQzUMXp1YwoskzE7gdi9c94I3a2JEbDCRJErScxKotT0rE-3Qbj7wmjM3aqQom7JE_fYMI33fNFkc6i2lsHpdi9qzTOU9d_SPZscxWKcVs6lLG_aTl3pOZEUUF-_AL2gG1FvB3ON8ITCSORsYG1s7NGLBQPElimy0CyqZPdQcKmG_nZzg_JcddUQyyyp53AFlyAd73gXofwHKNZGs2-VGUgci_-H089NS43fE0WlkbteeJW2-Y"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-icons-round text-white text-xl drop-shadow-md">file_upload</span>
+</div>
+</div>
+<span class="text-[9px] font-bold text-slate-500 uppercase tracking-tight">Upload</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-active:scale-95 transition-transform">
+<span class="material-icons-round">help_outline</span>
+</div>
+<span class="text-[9px] font-semibold text-slate-500 uppercase text-center leading-none">Help</span>
+</button>
+</div>
+<div class="flex items-center gap-2 py-1 px-4 rounded-full bg-slate-50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500">
+<span class="material-icons-round text-sm">info</span>
+<p class="text-[11px] font-medium italic">Hold steady for better label recognition</p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark pb-2 flex justify-center">
+<div class="w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+<div class="hidden lg:block fixed -bottom-24 -left-24 opacity-10 pointer-events-none">
+<span class="material-icons-round text-[300px] text-primary">spa</span>
+</div>
+
+</body></html>

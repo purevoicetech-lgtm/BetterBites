@@ -185,58 +185,115 @@ const App: React.FC = () => {
             )}
 
             {activePage === 'results' && lastAnalysis && (
-                <div className="flex-1 bg-[#f6f8f6] dark:bg-[#102210] overflow-y-auto p-6 animate-in slide-in-from-bottom duration-500">
-                    {/* Results Implementation here */}
-                    <div className="flex justify-between items-center mb-8">
-                        <button onClick={() => setActivePage('camera')} className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                            <span className="material-icons-round">arrow_back</span>
+                <div className="flex-1 bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen pb-32 overflow-y-auto">
+                    {/* Navigation Bar */}
+                    <nav className="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+                        <button
+                            onClick={() => setActivePage('camera')}
+                            className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm"
+                        >
+                            <span className="material-icons-round text-slate-600 dark:text-slate-300">arrow_back_ios_new</span>
                         </button>
-                        <h2 className="text-xl font-bold font-display uppercase tracking-wider">Analysis</h2>
-                        <div className="w-10"></div>
-                    </div>
+                        <h1 className="text-lg font-semibold tracking-tight">Analysis</h1>
+                        <button
+                            onClick={() => setActivePage('camera')}
+                            className="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/20"
+                        >
+                            <span className="material-icons-round">qr_code_scanner</span>
+                        </button>
+                    </nav>
 
-                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 shadow-xl mb-6">
-                        <div className="flex flex-col items-center mb-6">
-                            <div className="relative w-32 h-32 flex items-center justify-center mb-4">
-                                <svg className="w-full h-full rotate-[-90deg]">
-                                    <circle cx="64" cy="64" r="58" fill="transparent" stroke="currentColor" strokeWidth="8" className="text-slate-100 dark:text-slate-800" />
-                                    <circle cx="64" cy="64" r="58" fill="transparent" stroke="#13ec13" strokeWidth="8" strokeDasharray={364.4} strokeDashoffset={364.4 * (1 - lastAnalysis.score / 100)} strokeLinecap="round" />
-                                </svg>
-                                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className="text-4xl font-bold">{lastAnalysis.score}</span>
-                                    <span className="text-[10px] uppercase font-bold text-slate-400">Score</span>
-                                </div>
-                            </div>
-                            <h3 className="text-2xl font-bold text-center">{lastAnalysis.productName}</h3>
-                            <p className="text-sm text-slate-500 text-center mt-2 px-4">{lastAnalysis.explanation}</p>
+                    <main className="px-4 py-6">
+                        {/* Header Section */}
+                        <div className="mb-8 px-2">
+                            <h2 className="text-2xl font-bold leading-tight">Your Grocery Analysis</h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Successfully analyzed {lastAnalysis.productName}</p>
                         </div>
 
-                        <div className="space-y-6">
-                            <div>
-                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#13ec13] mb-3">The Good (Pros)</h4>
-                                <div className="flex flex-wrap gap-2">
+                        {/* Product Card */}
+                        <div className="relative bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border-2 border-primary/40 flex flex-col h-full mb-8">
+                            {/* Healthiest Choice Badge */}
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold uppercase tracking-widest py-1 px-3 rounded-full flex items-center gap-1 shadow-lg shadow-primary/30">
+                                <span className="material-icons-round text-xs">eco</span>
+                                Analyzed Result
+                            </div>
+
+                            <div className="text-center mb-4 mt-2">
+                                <h3 className="font-bold text-lg leading-tight line-clamp-2">{lastAnalysis.productName}</h3>
+                                <p className="text-[10px] text-slate-400 uppercase tracking-tighter mt-1">Processed by Gemini Flash</p>
+                            </div>
+
+                            {/* Health Score Gauge */}
+                            <div className="flex flex-col items-center justify-center mb-6">
+                                <div className="relative w-24 h-24 flex items-center justify-center">
+                                    <svg className="w-full h-full -rotate-90">
+                                        <circle className="text-slate-100 dark:text-slate-800" cx="48" cy="48" fill="transparent" r="42" stroke="currentColor" strokeWidth="8"></circle>
+                                        <circle className="text-primary" cx="48" cy="48" fill="transparent" r="42" stroke="currentColor" strokeDasharray="263.89" strokeDashoffset={263.89 * (1 - lastAnalysis.score / 100)} strokeWidth="8" strokeLinecap="round"></circle>
+                                    </svg>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-3xl font-bold">{lastAnalysis.score}</span>
+                                    </div>
+                                </div>
+                                <span className="text-xs font-medium text-primary mt-2">
+                                    {lastAnalysis.score >= 80 ? 'Excellent' : lastAnalysis.score >= 60 ? 'Good' : 'Moderate'}
+                                </span>
+                            </div>
+
+                            {/* Pros & Cons */}
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">The Good</h4>
                                     {lastAnalysis.pros.map((pro, i) => (
-                                        <span key={i} className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-medium">✓ {pro}</span>
+                                        <div key={i} className="flex items-start gap-2">
+                                            <span className="material-icons-round text-primary text-sm mt-0.5">check_circle</span>
+                                            <span className="text-xs leading-tight font-medium">{pro}</span>
+                                        </div>
                                     ))}
                                 </div>
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-red-400 mb-3">The Bad (Cons)</h4>
-                                <div className="flex flex-wrap gap-2">
+                                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-rose-500">To Watch Out For</h4>
                                     {lastAnalysis.cons.map((con, i) => (
-                                        <span key={i} className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-3 py-1 rounded-full text-xs font-medium">✕ {con}</span>
+                                        <div key={i} className="flex items-start gap-2">
+                                            <span className="material-icons-round text-rose-500 text-sm mt-0.5">warning</span>
+                                            <span className="text-xs leading-tight font-medium">{con}</span>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button
-                        onClick={() => setActivePage('camera')}
-                        className="w-full bg-[#13ec13] text-black font-bold py-5 rounded-2xl shadow-xl active:scale-95 transition-transform"
-                    >
-                        Scan Another
-                    </button>
+                        {/* Summary Insight Card */}
+                        <div className="bg-primary/10 dark:bg-primary/5 rounded-xl p-5 flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0">
+                                <span className="material-icons-round">lightbulb</span>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-sm">Dietary Insight</h4>
+                                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                                    {lastAnalysis.explanation}
+                                </p>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* Sticky Subscription Prompt */}
+                    <div className="fixed bottom-0 left-0 right-0 z-40 p-4 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light/95 dark:via-background-dark/95 to-transparent">
+                        <div className="bg-white dark:bg-slate-900 border border-primary/20 rounded-2xl p-4 shadow-xl flex items-center justify-between gap-4">
+                            <div className="flex-grow">
+                                <div className="flex items-center gap-2 mb-0.5">
+                                    <span className="text-xs font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase">Pro</span>
+                                    <span className="text-sm font-bold">Go Unlimited</span>
+                                </div>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400">Unlock detailed breakdowns for every scan</p>
+                            </div>
+                            <button
+                                onClick={() => setActivePage('pricing')}
+                                className="bg-primary hover:bg-primary/90 text-white font-bold text-xs py-3 px-6 rounded-xl transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
+                            >
+                                Unlock Now
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
 

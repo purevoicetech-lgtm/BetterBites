@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scan History &amp; Recent Products</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2D6A4F",
+                        "accent": "#40916C",
+                        "background-light": "#F8F9F5",
+                        "card-light": "#FFFFFF",
+                        "score-green": "#52B788",
+                        "beige-soft": "#F1F3EB"
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Lexend', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            background-color: #F8F9F5;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light text-slate-900 antialiased overflow-hidden">
+<div class="relative h-screen w-full max-w-md mx-auto flex flex-col overflow-hidden shadow-2xl bg-background-light">
+<header class="pt-12 pb-4 px-6 bg-background-light/80 ios-blur sticky top-0 z-20">
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-2xl font-bold text-primary">Scan History</h1>
+<button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-primary">
+<span class="material-icons-round">filter_list</span>
+</button>
+</div>
+<div class="relative group">
+<span class="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-white border-none rounded-2xl py-3.5 pl-12 pr-4 shadow-sm focus:ring-2 focus:ring-primary/20 text-sm placeholder:text-slate-400" placeholder="Search your past scans..." type="text"/>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto px-6 pb-24 custom-scrollbar">
+<div class="flex items-center justify-between py-4">
+<h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Recent Activity</h2>
+<span class="text-xs font-medium text-primary">Clear all</span>
+</div>
+<div class="space-y-4">
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-beige-soft flex-shrink-0 overflow-hidden relative">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb83Z0u6qHMVwqJIhMWyYyN-hdKNQzUMXp1YwoskzE7gdi9c94I3a2JEbDCRJErScxKotT0rE-3Qbj7wmjM3aqQom7JE_fYMI33fNFkc6i2lsHpdi9qzTOU9d_SPZscxWKcVs6lLG_aTl3pOZEUUF-_AL2gG1FvB3ON8ITCSORsYG1s7NGLBQPElimy0CyqZPdQcKmG_nZzg_JcddUQyyyp53AFlyAd73gXofwHKNZGs2-VGUgci_-H089NS43fE0WlkbteeJW2-Y"/>
+<div class="absolute bottom-1 right-1 bg-white/90 p-0.5 rounded-md">
+<span class="material-symbols-outlined text-primary text-[14px]">eco</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="material-icons-round text-primary text-[14px]">potted_plant</span>
+<span class="text-[10px] font-bold text-primary/60 uppercase tracking-tight">Produce</span>
+</div>
+<h3 class="font-bold text-slate-800 truncate">Organic Baby Spinach</h3>
+<p class="text-xs text-slate-400">Today, 2:15 PM</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-4 border-score-green/20 flex items-center justify-center relative">
+<span class="text-[11px] font-bold text-primary">92</span>
+<svg class="absolute inset-0 -rotate-90" viewBox="0 0 36 36">
+<circle class="text-score-green" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="92, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+</div>
+<span class="text-[8px] font-bold text-score-green uppercase mt-1">Great</span>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-beige-soft flex-shrink-0 overflow-hidden relative">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb83Z0u6qHMVwqJIhMWyYyN-hdKNQzUMXp1YwoskzE7gdi9c94I3a2JEbDCRJErScxKotT0rE-3Qbj7wmjM3aqQom7JE_fYMI33fNFkc6i2lsHpdi9qzTOU9d_SPZscxWKcVs6lLG_aTl3pOZEUUF-_AL2gG1FvB3ON8ITCSORsYG1s7NGLBQPElimy0CyqZPdQcKmG_nZzg_JcddUQyyyp53AFlyAd73gXofwHKNZGs2-VGUgci_-H089NS43fE0WlkbteeJW2-Y"/>
+<div class="absolute bottom-1 right-1 bg-white/90 p-0.5 rounded-md">
+<span class="material-symbols-outlined text-primary text-[14px]">water_drop</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="material-icons-round text-primary text-[14px]">opacity</span>
+<span class="text-[10px] font-bold text-primary/60 uppercase tracking-tight">Dairy</span>
+</div>
+<h3 class="font-bold text-slate-800 truncate">Greek Yogurt - Plain</h3>
+<p class="text-xs text-slate-400">Yesterday, 5:30 PM</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-4 border-score-green/20 flex items-center justify-center relative">
+<span class="text-[11px] font-bold text-primary">85</span>
+<svg class="absolute inset-0 -rotate-90" viewBox="0 0 36 36">
+<circle class="text-score-green" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+</div>
+<span class="text-[8px] font-bold text-score-green uppercase mt-1">Good</span>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 opacity-80">
+<div class="w-16 h-16 rounded-xl bg-beige-soft flex-shrink-0 overflow-hidden relative">
+<div class="w-full h-full bg-slate-200 flex items-center justify-center">
+<span class="material-icons-round text-slate-400">fastfood</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="material-icons-round text-orange-400 text-[14px]">inventory_2</span>
+<span class="text-[10px] font-bold text-orange-400/80 uppercase tracking-tight">Packaged</span>
+</div>
+<h3 class="font-bold text-slate-800 truncate">Salted Potato Chips</h3>
+<p class="text-xs text-slate-400">Oct 24, 2023</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-4 border-orange-200 flex items-center justify-center relative">
+<span class="text-[11px] font-bold text-orange-500">42</span>
+<svg class="absolute inset-0 -rotate-90" viewBox="0 0 36 36">
+<circle class="text-orange-500" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="42, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+</div>
+<span class="text-[8px] font-bold text-orange-500 uppercase mt-1">Poor</span>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-beige-soft flex-shrink-0 overflow-hidden relative">
+<div class="w-full h-full bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary/40">bakery_dining</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="material-icons-round text-primary text-[14px]">grain</span>
+<span class="text-[10px] font-bold text-primary/60 uppercase tracking-tight">Bakery</span>
+</div>
+<h3 class="font-bold text-slate-800 truncate">Whole Grain Sourdough</h3>
+<p class="text-xs text-slate-400">Oct 22, 2023</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-4 border-score-green/20 flex items-center justify-center relative">
+<span class="text-[11px] font-bold text-primary">88</span>
+<svg class="absolute inset-0 -rotate-90" viewBox="0 0 36 36">
+<circle class="text-score-green" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+</div>
+<span class="text-[8px] font-bold text-score-green uppercase mt-1">Good</span>
+</div>
+</div>
+</div>
+</main>
+<nav class="absolute bottom-0 left-0 right-0 px-6 pb-8 pt-4 bg-white/90 ios-blur border-t border-slate-100 flex justify-between items-center z-30">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-active:scale-95 transition-transform">home</span>
+<span class="text-[10px] font-medium text-slate-400 uppercase">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-primary group-active:scale-95 transition-transform">history</span>
+<span class="text-[10px] font-bold text-primary uppercase">History</span>
+</button>
+<div class="-mt-12">
+<button class="w-16 h-16 rounded-full bg-primary shadow-lg shadow-primary/30 flex items-center justify-center text-white active:scale-90 transition-transform ring-4 ring-background-light">
+<span class="material-icons-round text-3xl">photo_camera</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-active:scale-95 transition-transform">compare_arrows</span>
+<span class="text-[10px] font-medium text-slate-400 uppercase">Compare</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-active:scale-95 transition-transform">person_outline</span>
+<span class="text-[10px] font-medium text-slate-400 uppercase">Profile</span>
+</button>
+</nav>
+<div class="fixed -bottom-12 -right-12 opacity-5 pointer-events-none rotate-12">
+<span class="material-icons-round text-[240px] text-primary">spa</span>
+</div>
+<div class="fixed -top-12 -left-12 opacity-5 pointer-events-none -rotate-12">
+<span class="material-icons-round text-[200px] text-primary">leaf</span>
+</div>
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-slate-300 rounded-full z-40"></div>
+</div>
+
+</body></html>

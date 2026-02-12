@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Subscription Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec13",
+                        "primary-dark": "#0ea60e",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102210",
+                        "leaf-green": "#e8f5e9",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Lexend', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nature-bg {
+            background-color: #f6f8f6;
+            background-image: radial-gradient(circle at 10% 20%, rgba(19, 236, 19, 0.05) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(19, 236, 19, 0.05) 0%, transparent 20%);
+        }
+        .benefit-card {
+            @apply flex items-center gap-4 p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white;
+        }
+        .tier-card {
+            @apply relative p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer;
+        }
+        .tier-selected {
+            @apply border-primary bg-primary/5 ring-1 ring-primary;
+        }
+        .tier-unselected {
+            @apply border-slate-100 bg-white;
+        }
+        .leaf-pattern {
+            opacity: 0.03;
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="relative h-screen w-full max-w-md mx-auto flex flex-col bg-background-light nature-bg shadow-2xl overflow-hidden">
+<span class="material-symbols-outlined leaf-pattern text-[200px] -top-10 -left-10 rotate-45">spa</span>
+<span class="material-symbols-outlined leaf-pattern text-[150px] top-1/2 -right-10 -rotate-12">eco</span>
+<span class="material-symbols-outlined leaf-pattern text-[180px] bottom-20 -left-12 rotate-[160deg]">nest_eco_leaf</span>
+<div class="relative z-10 p-6 flex items-center justify-between">
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-sm">
+<span class="material-icons-round text-slate-400">close</span>
+</button>
+<div class="flex-1 text-center pr-10">
+<h1 class="text-xl font-bold text-slate-800">Go Pro</h1>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-6 pb-24 relative z-10">
+<div class="text-center mb-8">
+<div class="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4">
+<span class="material-icons-round text-primary text-5xl">auto_awesome</span>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 mb-2">Elevate Your Health</h2>
+<p class="text-slate-500 text-sm">Unlock the full power of AI label scanning and take control of your nutrition.</p>
+</div>
+<div class="space-y-3 mb-8">
+<div class="benefit-card">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</div>
+<div>
+<p class="font-bold text-slate-800 text-sm">Unlimited Scans</p>
+<p class="text-xs text-slate-500">Scan every product in your cart without limits.</p>
+</div>
+</div>
+<div class="benefit-card">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<p class="font-bold text-slate-800 text-sm">In-depth AI Analysis</p>
+<p class="text-xs text-slate-500">Detailed ingredient safety and nutritional breakdowns.</p>
+</div>
+</div>
+<div class="benefit-card">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">block</span>
+</div>
+<div>
+<p class="font-bold text-slate-800 text-sm">Ad-Free Experience</p>
+<p class="text-xs text-slate-500">A clean, distraction-free scanning journey.</p>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="tier-card tier-selected shadow-sm">
+<div class="absolute -top-3 right-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Best Value
+                    </div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+</div>
+<div>
+<p class="font-bold text-slate-800">Yearly Plan</p>
+<p class="text-xs text-primary font-medium">Save 40% annually</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-slate-900">$39.99</p>
+<p class="text-[10px] text-slate-400">/ year</p>
+</div>
+</div>
+</div>
+<div class="tier-card tier-unselected border-slate-200">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded-full border-2 border-slate-200"></div>
+<div>
+<p class="font-bold text-slate-800">Monthly Plan</p>
+<p class="text-xs text-slate-500">Cancel anytime</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-slate-900">$5.99</p>
+<p class="text-[10px] text-slate-400">/ month</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light via-background-light/95 to-transparent pt-12 pb-10 z-20">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/30 active:scale-[0.98] transition-all mb-4">
+                Subscribe Now
+            </button>
+<div class="flex flex-col items-center gap-2">
+<button class="text-xs font-semibold text-slate-400 uppercase tracking-widest hover:text-slate-600">
+                    Restore Purchase
+                </button>
+<p class="text-[9px] text-slate-400 text-center px-6">
+                    Subscription automatically renews unless canceled at least 24 hours before the end of the current period.
+                </p>
+</div>
+</div>
+<div class="bg-background-light pb-2 flex justify-center z-20">
+<div class="w-32 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+
+</body></html>
