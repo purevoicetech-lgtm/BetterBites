@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-import { SYSTEM_INSTRUCTION } from "../constants";
-import { HealthAnalysis } from "../types";
+import { SYSTEM_INSTRUCTION, COMPARE_INSTRUCTION } from "../constants";
+import { HealthAnalysis, ComparisonAnalysis } from "../types";
 
 const SAFETY_SETTINGS = [
   { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
@@ -9,7 +9,10 @@ const SAFETY_SETTINGS = [
   { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
 ];
 
-export async function analyzeProduct(base64Images: string[]): Promise<HealthAnalysis | null> {
+export async function analyzeProduct(
+  base64Images: string[],
+  mode: 'scan' | 'compare' | 'nutrition' = 'scan'
+): Promise<HealthAnalysis | ComparisonAnalysis | null> {
   const apiKey = import.meta.env.VITE_API_KEY || "";
   const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -18,14 +21,19 @@ export async function analyzeProduct(base64Images: string[]): Promise<HealthAnal
     return { inlineData: { data: cleanBase64, mimeType: 'image/jpeg' } };
   });
 
+  const instruction = mode === 'compare' ? COMPARE_INSTRUCTION : SYSTEM_INSTRUCTION;
+  const prompt = mode === 'compare'
+    ? "Compare these nutrition labels and identify the healthiest option."
+    : "Analyze the nutrition and ingredients of this product.";
+
   try {
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
-      systemInstruction: SYSTEM_INSTRUCTION
+      systemInstruction: instruction
     });
 
     const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [...imageParts, { text: "Analyze the nutrition and ingredients of this product." }] }],
+      contents: [{ role: 'user', parts: [...imageParts, { text: prompt }] }],
       generationConfig: {
         responseMimeType: "application/json",
       },
@@ -33,7 +41,7 @@ export async function analyzeProduct(base64Images: string[]): Promise<HealthAnal
     });
 
     const text = result.response.text();
-    return JSON.parse(text) as HealthAnalysis;
+    return JSON.parse(text);
   } catch (error: any) {
     console.error("Analysis failed:", error);
     throw new Error(error.message || "Product analysis failed.");

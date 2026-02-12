@@ -31,3 +31,25 @@ Return a valid JSON object with the following structure:
   "additives": ["string"]
 }
 `;
+
+export const COMPARE_INSTRUCTION = `
+### ROLE: PRECISION NUTRITIONIST & COMPARISON EXPERT
+Analyze MULTIPLE products from the photos. Compare them based on nutritional value.
+
+### OUTPUT FORMAT: JSON ONLY
+Return a valid JSON object with the following structure:
+{
+  "products": [
+    {
+      "productName": "String",
+      "score": Number (0-100),
+      "explanation": "Short string",
+      "pros": ["string"],
+      "cons": ["string"],
+      "additives": ["string"]
+    }
+  ],
+  "winner": "Name of the healthiest product",
+  "comparisonSummary": "Overview of why the winner is better"
+}
+`;

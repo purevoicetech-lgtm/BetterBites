@@ -5,6 +5,7 @@ import {
     UserState,
     ScanResult,
     HealthAnalysis,
+    ComparisonAnalysis,
     TIER_CONFIG
 } from './types';
 import { APP_NAME, COLORS } from './constants';
@@ -30,6 +31,7 @@ const App: React.FC = () => {
     const [showShutter, setShowShutter] = useState(false);
     const [activeMode, setActiveMode] = useState<'nutrition' | 'scan' | 'compare'>('scan');
     const [lastAnalysis, setLastAnalysis] = useState<HealthAnalysis | null>(null);
+    const [lastComparison, setLastComparison] = useState<ComparisonAnalysis | null>(null);
     const [cameraError, setCameraError] = useState<string | null>(null);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -223,9 +225,15 @@ const App: React.FC = () => {
 
         setIsAnalyzing(true);
         try {
-            const result = await analyzeProduct(shots);
+            const result = await analyzeProduct(shots, activeMode);
             if (result) {
-                setLastAnalysis(result);
+                if ('products' in result) {
+                    setLastComparison(result as ComparisonAnalysis);
+                    setLastAnalysis(result.products[0]); // Fallback for some components
+                } else {
+                    setLastAnalysis(result as HealthAnalysis);
+                    setLastComparison(null);
+                }
 
                 // Update scans in Supabase
                 const { data: { session } } = await supabase.auth.getSession();
@@ -355,7 +363,7 @@ const App: React.FC = () => {
                 </div>
             )}
 
-            {activePage === 'results' && lastAnalysis && (
+            {activePage === 'results' && (lastAnalysis || lastComparison) && (
                 <div className="flex-1 bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen pb-32 overflow-y-auto animate-in">
                     {/* Top Bar */}
                     <nav className="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
@@ -365,92 +373,166 @@ const App: React.FC = () => {
                         >
                             <span className="material-icons-round text-slate-500">arrow_back_ios_new</span>
                         </button>
-                        <h1 className="text-lg font-bold tracking-tight">Health Analysis</h1>
+                        <h1 className="text-lg font-bold tracking-tight">
+                            {lastComparison ? 'Product Comparison' : 'Health Analysis'}
+                        </h1>
                         <div className="w-10"></div>
                     </nav>
 
                     <main className="px-5 py-8">
                         <div className="mb-8">
-                            <h2 className="text-2xl font-bold leading-tight">Grocery Analysis</h2>
-                            <p className="text-slate-500 text-sm mt-1">Found healthiest option and insights</p>
+                            <h2 className="text-2xl font-bold leading-tight">
+                                {lastComparison ? 'Better Choice Found' : 'Grocery Analysis'}
+                            </h2>
+                            <p className="text-slate-500 text-sm mt-1">
+                                {lastComparison ? 'Comparison by Gemini AI' : 'Found healthiest option and insights'}
+                            </p>
                         </div>
 
-                        {/* Product Result Card */}
-                        <div className="relative bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-xl border-2 border-primary/20 mb-8 overflow-hidden">
-                            {/* Leaf Pattern Background (Subtle) */}
-                            <div className="absolute top-0 right-0 opacity-[0.03] pointer-events-none">
-                                <span className="material-icons-round text-[150px] text-primary">eco</span>
-                            </div>
+                        {lastComparison ? (
+                            <div className="space-y-8">
+                                {/* Winner Summary */}
+                                <div className="bg-primary/10 rounded-3xl p-6 border border-primary/20">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <span className="material-icons-round text-primary">emoji_events</span>
+                                        <h3 className="font-bold text-primary uppercase tracking-wider text-xs">AI Recommendation</h3>
+                                    </div>
+                                    <p className="text-sm font-bold mb-1">Pick: {lastComparison.winner}</p>
+                                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{lastComparison.comparisonSummary}</p>
+                                </div>
 
-                            {/* Healthiest Choice Badge */}
-                            <div className="absolute top-0 right-0 bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-2xl flex items-center gap-1">
-                                <span className="material-icons-round text-xs">verified</span>
-                                High Score
-                            </div>
+                                {/* Comparison Cards */}
+                                <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x">
+                                    {lastComparison.products.map((product, idx) => (
+                                        <div key={idx} className="snap-center flex-shrink-0 w-[85%] bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-xl border-2 border-slate-100 dark:border-slate-800 relative overflow-hidden">
+                                            {lastComparison.winner === product.productName && (
+                                                <div className="absolute top-0 right-0 bg-primary text-black text-[9px] font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-lg">
+                                                    WINNER
+                                                </div>
+                                            )}
 
-                            <div className="text-center mb-6">
-                                <h3 className="font-bold text-xl leading-snug px-4">{lastAnalysis.productName}</h3>
-                                <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] mt-2">Analysis by Gemini Flash</p>
-                            </div>
+                                            <div className="text-center mb-6">
+                                                <h3 className="font-bold text-lg leading-tight h-12 flex items-center justify-center">{product.productName}</h3>
 
-                            {/* Score Gauge */}
-                            <div className="flex flex-col items-center justify-center mb-8">
-                                <div className="relative w-36 h-36 flex items-center justify-center">
-                                    <svg className="w-full h-full -rotate-90">
-                                        <circle className="text-slate-100 dark:text-slate-800" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeWidth="12"></circle>
-                                        <circle className="text-primary transition-all duration-1000 ease-out" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 100)} strokeWidth="12" strokeLinecap="round"></circle>
-                                    </svg>
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                        <span className="text-5xl font-bold tracking-tighter">{lastAnalysis.score}</span>
-                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Score</span>
+                                                <div className="mt-4 relative w-24 h-24 mx-auto flex items-center justify-center">
+                                                    <svg className="w-full h-full -rotate-90">
+                                                        <circle className="text-slate-100 dark:text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="8"></circle>
+                                                        <circle className="text-primary transition-all duration-1000 ease-out" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 100)} strokeWidth="8" strokeLinecap="round"></circle>
+                                                    </svg>
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                                        <span className="text-2xl font-bold">{product.score}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-primary mb-2">Pros</h4>
+                                                    <div className="space-y-1">
+                                                        {product.pros.slice(0, 2).map((p, i) => (
+                                                            <div key={i} className="flex items-center gap-2 text-[11px]">
+                                                                <span className="material-icons text-primary text-xs">check</span>
+                                                                <span>{p}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-rose-400 mb-2">Cons</h4>
+                                                    <div className="space-y-1">
+                                                        {product.cons.slice(0, 2).map((c, i) => (
+                                                            <div key={i} className="flex items-center gap-2 text-[11px]">
+                                                                <span className="material-icons text-rose-400 text-xs">close</span>
+                                                                <span>{c}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : lastAnalysis ? (
+                            /* Product Result Card */
+                            <div className="relative bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-xl border-2 border-primary/20 mb-8 overflow-hidden">
+                                {/* Leaf Pattern Background (Subtle) */}
+                                <div className="absolute top-0 right-0 opacity-[0.03] pointer-events-none">
+                                    <span className="material-icons-round text-[150px] text-primary">eco</span>
+                                </div>
+
+                                {/* Healthiest Choice Badge */}
+                                <div className="absolute top-0 right-0 bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-2xl flex items-center gap-1">
+                                    <span className="material-icons-round text-xs">verified</span>
+                                    High Score
+                                </div>
+
+                                <div className="text-center mb-6">
+                                    <h3 className="font-bold text-xl leading-snug px-4">{lastAnalysis.productName}</h3>
+                                    <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] mt-2">Analysis by Gemini Flash</p>
+                                </div>
+
+                                {/* Score Gauge */}
+                                <div className="flex flex-col items-center justify-center mb-8">
+                                    <div className="relative w-36 h-36 flex items-center justify-center">
+                                        <svg className="w-full h-full -rotate-90">
+                                            <circle className="text-slate-100 dark:text-slate-800" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeWidth="12"></circle>
+                                            <circle className="text-primary transition-all duration-1000 ease-out" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 100)} strokeWidth="12" strokeLinecap="round"></circle>
+                                        </svg>
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <span className="text-5xl font-bold tracking-tighter">{lastAnalysis.score}</span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Score</span>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 px-4 py-1.5 bg-primary/10 rounded-full">
+                                        <p className="text-xs font-bold text-primary uppercase tracking-widest">
+                                            {lastAnalysis.score >= 80 ? 'Excellent Choice' : lastAnalysis.score >= 60 ? 'Good Choice' : 'Consume Moderately'}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="mt-4 px-4 py-1.5 bg-primary/10 rounded-full">
-                                    <p className="text-xs font-bold text-primary uppercase tracking-widest">
-                                        {lastAnalysis.score >= 80 ? 'Excellent Choice' : lastAnalysis.score >= 60 ? 'Good Choice' : 'Consume Moderately'}
+
+                                {/* Analysis Lists */}
+                                <div className="space-y-6">
+                                    <div>
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary mb-3">Key Benefits</h4>
+                                        <div className="space-y-3">
+                                            {lastAnalysis.pros.map((pro, i) => (
+                                                <div key={i} className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                                                    <span className="material-icons-round text-primary text-xl">check_circle</span>
+                                                    <span className="text-xs font-medium leading-tight">{pro}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-500 mb-3">Health Considerations</h4>
+                                        <div className="space-y-3">
+                                            {lastAnalysis.cons.map((con, i) => (
+                                                <div key={i} className="flex items-start gap-3 bg-rose-50/50 dark:bg-rose-900/10 p-3 rounded-xl border border-rose-100/50 dark:border-rose-900/20">
+                                                    <span className="material-icons-round text-rose-400 text-xl">report_problem</span>
+                                                    <span className="text-xs font-medium leading-tight">{con}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : null}
+
+                        {/* AI Insight Card */}
+                        {(lastAnalysis || lastComparison) && (
+                            <div className="bg-primary/5 dark:bg-primary/10 rounded-[2rem] p-6 border border-primary/10 flex items-start gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-primary/20">
+                                    <span className="material-icons-round">psychology</span>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-sm mb-1 uppercase tracking-tight">AI Nutrition Insight</h4>
+                                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        {lastComparison ? lastComparison.comparisonSummary : lastAnalysis?.explanation}
                                     </p>
                                 </div>
                             </div>
-
-                            {/* Analysis Lists */}
-                            <div className="space-y-6">
-                                <div>
-                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary mb-3">Key Benefits</h4>
-                                    <div className="space-y-3">
-                                        {lastAnalysis.pros.map((pro, i) => (
-                                            <div key={i} className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                                                <span className="material-icons-round text-primary text-xl">check_circle</span>
-                                                <span className="text-xs font-medium leading-tight">{pro}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-500 mb-3">Health Considerations</h4>
-                                    <div className="space-y-3">
-                                        {lastAnalysis.cons.map((con, i) => (
-                                            <div key={i} className="flex items-start gap-3 bg-rose-50/50 dark:bg-rose-900/10 p-3 rounded-xl border border-rose-100/50 dark:border-rose-900/20">
-                                                <span className="material-icons-round text-rose-400 text-xl">report_problem</span>
-                                                <span className="text-xs font-medium leading-tight">{con}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* AI Insight Card */}
-                        <div className="bg-primary/5 dark:bg-primary/10 rounded-[2rem] p-6 border border-primary/10 flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-primary/20">
-                                <span className="material-icons-round">psychology</span>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-sm mb-1 uppercase tracking-tight">AI Nutrition Insight</h4>
-                                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                                    {lastAnalysis.explanation}
-                                </p>
-                            </div>
-                        </div>
+                        )}
 
                         {/* Scan Another Button */}
                         <button

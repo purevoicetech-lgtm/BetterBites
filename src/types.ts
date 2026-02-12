@@ -15,6 +15,12 @@ export interface HealthAnalysis {
   alternatives?: string[];
 }
 
+export interface ComparisonAnalysis {
+  products: HealthAnalysis[];
+  winner: string;
+  comparisonSummary: string;
+}
+
 export interface ScanResult {
   id: string;
   originalImages: string[];
