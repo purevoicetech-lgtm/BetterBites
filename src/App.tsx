@@ -69,13 +69,13 @@ const App: React.FC = () => {
 
     // Camera Management
     useEffect(() => {
-        if (activePage === 'camera' && !isAnalyzing) {
+        if (activePage === 'camera') {
             startCamera();
         } else {
             stopCamera();
         }
         return () => stopCamera();
-    }, [activePage, isAnalyzing]);
+    }, [activePage]);
 
     const syncUserData = async (userId: string) => {
         const { data: profile } = await supabase
@@ -182,15 +182,13 @@ const App: React.FC = () => {
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 const base64 = canvas.toDataURL('image/jpeg', 0.85);
 
-                setCurrentShots(prev => {
-                    const newShots = [...prev, base64];
-                    console.log("Captured shot. Total shots:", newShots.length);
+                // Add to shots and then decide if we analyze
+                const updatedShots = [...currentShots, base64];
+                setCurrentShots(updatedShots);
 
-                    if (activeMode !== 'compare') {
-                        processAnalysis(newShots);
-                    }
-                    return newShots;
-                });
+                if (activeMode !== 'compare') {
+                    await processAnalysis(updatedShots);
+                }
             }
         } catch (e: any) {
             console.error("Capture failure:", e);
@@ -207,11 +205,11 @@ const App: React.FC = () => {
         const reader = new FileReader();
         reader.onload = async () => {
             const base64 = reader.result as string;
-            const newShots = [...currentShots, base64];
-            setCurrentShots(newShots);
+            const updatedShots = [...currentShots, base64];
+            setCurrentShots(updatedShots);
 
             if (activeMode !== 'compare') {
-                await processAnalysis(newShots);
+                await processAnalysis(updatedShots);
             }
         };
         reader.readAsDataURL(file);
@@ -224,7 +222,6 @@ const App: React.FC = () => {
         }
 
         setIsAnalyzing(true);
-        stopCamera();
         try {
             const result = await analyzeProduct(shots);
             if (result) {
@@ -246,7 +243,6 @@ const App: React.FC = () => {
             }
         } catch (err) {
             console.error("Analysis failed", err);
-            startCamera(); // Restart camera on error
         } finally {
             setIsAnalyzing(false);
             setCurrentShots([]);
