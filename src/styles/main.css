@@ -1,0 +1,36 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lexend', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f6f8f6;
+  color: #102210;
+}
+
+.dark body {
+  background-color: #102210;
+  color: #f6f8f6;
+}
+
+.camera-overlay {
+  background: linear-gradient(0deg, rgba(16, 34, 16, 0.4) 0%, rgba(16, 34, 16, 0) 20%, rgba(16, 34, 16, 0) 80%, rgba(16, 34, 16, 0.4) 100%);
+}
+
+.scan-frame {
+  box-shadow: 0 0 0 9999px rgba(16, 34, 16, 0.4);
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scan-line {
+  animation: scan 2s linear infinite;
+}
