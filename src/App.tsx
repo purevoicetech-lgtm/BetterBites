@@ -298,20 +298,131 @@ const App: React.FC = () => {
             )}
 
             {/* Other pages (Login, Pricing, History) would be implemented similarly */}
-            {activePage === 'login' && (
-                <div className="flex-1 flex flex-col items-center justify-center p-8 bg-white dark:bg-[#102210]">
-                    <div className="w-20 h-20 bg-[#13ec13] rounded-3xl flex items-center justify-center mb-8 shadow-xl">
-                        <span className="material-icons-round text-white text-4xl">eco</span>
+            {activePage === 'pricing' && (
+                <div className="relative flex-1 bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden flex flex-col font-display">
+                    <div className="relative z-10 p-6 pt-12 flex items-center justify-between">
+                        <button
+                            onClick={() => setActivePage('camera')}
+                            className="w-10 h-10 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md flex items-center justify-center shadow-sm"
+                        >
+                            <span className="material-icons-round text-slate-400">close</span>
+                        </button>
+                        <div className="flex-1 text-center pr-10">
+                            <h1 className="text-xl font-bold text-slate-800 dark:text-slate-200">Go Pro</h1>
+                        </div>
                     </div>
-                    <h1 className="text-3xl font-bold mb-2">{APP_NAME}</h1>
-                    <p className="text-slate-500 mb-12 text-center">Your Personal AI Grocery Assistant</p>
-                    <button
-                        onClick={() => setActivePage('camera')}
-                        className="w-full bg-black dark:bg-slate-800 text-white font-bold py-5 rounded-2xl mb-4"
-                    >
-                        Login with Email
-                    </button>
-                    <button className="text-sm font-semibold text-slate-400 uppercase tracking-widest">Create Account</button>
+
+                    <div className="flex-1 overflow-y-auto px-6 pb-24 relative z-10">
+                        <div className="text-center mb-8">
+                            <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                <span className="material-icons-round text-primary text-5xl">auto_awesome</span>
+                            </div>
+                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Elevate Your Health</h2>
+                            <p className="text-slate-500 text-sm">Unlock the full power of AI label scanning and take control of your nutrition.</p>
+                        </div>
+
+                        <div className="space-y-3 mb-8">
+                            {[
+                                { icon: 'qr_code_scanner', title: 'Unlimited Scans', desc: 'Scan every product in your cart without limits.' },
+                                { icon: 'psychology', title: 'In-depth AI Analysis', desc: 'Detailed ingredient safety and nutritional breakdowns.' },
+                                { icon: 'block', title: 'Ad-Free Experience', desc: 'A clean, distraction-free scanning journey.' }
+                            ].map((benefit, i) => (
+                                <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-white dark:border-slate-800">
+                                    <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/20 flex items-center justify-center text-primary">
+                                        <span className="material-symbols-outlined">{benefit.icon}</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">{benefit.title}</p>
+                                        <p className="text-xs text-slate-500">{benefit.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="relative p-5 rounded-2xl border-2 border-primary bg-primary/5 ring-1 ring-primary shadow-sm">
+                                <div className="absolute -top-3 right-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                    Best Value
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+                                            <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-slate-800 dark:text-white">Yearly Plan</p>
+                                            <p className="text-xs text-primary font-medium">Save 40% annually</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-bold text-slate-900 dark:text-white">$39.99</p>
+                                        <p className="text-[10px] text-slate-400">/ year</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 rounded-full border-2 border-slate-200"></div>
+                                        <div>
+                                            <p className="font-bold text-slate-800 dark:text-white">Monthly Plan</p>
+                                            <p className="text-xs text-slate-500">Cancel anytime</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-bold text-slate-900 dark:text-white">$5.99</p>
+                                        <p className="text-[10px] text-slate-400">/ month</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light/95 dark:via-background-dark/95 to-transparent pt-12 pb-10 z-20">
+                        <button className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all mb-4">
+                            Subscribe Now
+                        </button>
+                        <div className="flex flex-col items-center gap-2">
+                            <button className="text-xs font-semibold text-slate-400 uppercase tracking-widest hover:text-slate-600">
+                                Restore Purchase
+                            </button>
+                            <p className="text-[9px] text-slate-400 text-center px-6">
+                                Subscription automatically renews unless canceled at least 24 hours before current period ends.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {activePage === 'login' && (
+                <div className="flex-1 flex flex-col items-center justify-center p-8 bg-background-light dark:bg-background-dark font-display relative overflow-hidden">
+                    <div className="relative z-10 w-full flex flex-col items-center">
+                        <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-8 shadow-xl border border-primary/20">
+                            <span className="material-icons-round text-primary text-4xl">eco</span>
+                        </div>
+                        <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">{APP_NAME}</h1>
+                        <p className="text-slate-500 mb-12 text-center text-sm">Your Personal AI Grocery Assistant</p>
+
+                        <div className="w-full space-y-4">
+                            <button
+                                onClick={() => setActivePage('camera')}
+                                className="w-full bg-primary text-white font-bold py-5 rounded-2xl shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-[0.98]"
+                            >
+                                Continue as Guest
+                            </button>
+                            <button
+                                className="w-full bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-bold py-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm"
+                            >
+                                Login with Email
+                            </button>
+                        </div>
+                        <button className="mt-8 text-xs font-bold text-slate-400 uppercase tracking-widest">Create Account</button>
+                    </div>
+
+                    <div className="absolute -bottom-24 -left-24 opacity-[0.03] pointer-events-none">
+                        <span className="material-icons-round text-[300px] text-primary">spa</span>
+                    </div>
                 </div>
             )}
         </div>
