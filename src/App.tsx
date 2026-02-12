@@ -30,7 +30,11 @@ const App: React.FC = () => {
     const [lastAnalysis, setLastAnalysis] = useState<HealthAnalysis | null>(null);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [stream, setStream] = useState<MediaStream | null>(null);
 
+    // Auth Effects
     useEffect(() => {
         const checkUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -60,6 +64,16 @@ const App: React.FC = () => {
         return () => subscription.unsubscribe();
     }, []);
 
+    // Camera Management
+    useEffect(() => {
+        if (activePage === 'camera' && !isAnalyzing) {
+            startCamera();
+        } else {
+            stopCamera();
+        }
+        return () => stopCamera();
+    }, [activePage, isAnalyzing]);
+
     const syncUserData = async (userId: string) => {
         const { data: profile } = await supabase
             .from('profiles')
@@ -77,10 +91,55 @@ const App: React.FC = () => {
         }
     };
 
+    const startCamera = async () => {
+        try {
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'environment', // Always prefer back camera for scanning
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 }
+                },
+                audio: false
+            });
+            if (videoRef.current) {
+                videoRef.current.srcObject = mediaStream;
+            }
+            setStream(mediaStream);
+        } catch (err) {
+            console.error("Camera access denied or failed:", err);
+            // Fallback: alert the user
+            alert("BetterBite needs camera access to scan labels. Please enable permissions in your browser settings.");
+        }
+    };
+
+    const stopCamera = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            setStream(null);
+        }
+    };
+
     const handleCapture = async () => {
-        // In a real app, this would use the MediaDevices API. 
-        // For this implementation, we'll trigger the file uploader to simulate "capture"
-        fileInputRef.current?.click();
+        if (videoRef.current && canvasRef.current) {
+            const video = videoRef.current;
+            const canvas = canvasRef.current;
+
+            // Set canvas size to match video resolution
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const base64 = canvas.toDataURL('image/jpeg', 0.85); // Compress slightly for faster upload
+                const newShots = [...currentShots, base64];
+                setCurrentShots(newShots);
+
+                if (activeMode !== 'compare') {
+                    await processAnalysis(newShots);
+                }
+            }
+        }
     };
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +166,7 @@ const App: React.FC = () => {
         }
 
         setIsAnalyzing(true);
+        stopCamera();
         try {
             const result = await analyzeProduct(shots);
             if (result) {
@@ -128,6 +188,7 @@ const App: React.FC = () => {
             }
         } catch (err) {
             console.error("Analysis failed", err);
+            startCamera(); // Restart camera on error
         } finally {
             setIsAnalyzing(false);
             setCurrentShots([]);
@@ -153,16 +214,29 @@ const App: React.FC = () => {
                 accept="image/*"
                 onChange={handleFileChange}
             />
+            <canvas ref={canvasRef} className="hidden" />
 
             {activePage === 'camera' && (
                 <div className="relative h-screen flex flex-col">
                     {/* Camera View Area (72%) */}
                     <div className="relative h-[72%] w-full bg-slate-900 overflow-hidden">
-                        {currentShots.length > 0 ? (
-                            <img src={currentShots[currentShots.length - 1]} className="w-full h-full object-cover" alt="Current shot" />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-500">
-                                <span className="material-icons-round text-6xl">camera_alt</span>
+                        <video
+                            ref={videoRef}
+                            autoPlay
+                            playsInline
+                            className="w-full h-full object-cover"
+                        />
+
+                        {!stream && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 backdrop-blur-sm text-slate-400 p-8 text-center">
+                                <span className="material-icons-round text-6xl mb-4">camera_enhance</span>
+                                <p className="text-sm font-medium">Camera preview not available</p>
+                                <button
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="mt-4 px-6 py-2 bg-primary text-black font-bold rounded-full text-xs"
+                                >
+                                    USE FILE PICKER
+                                </button>
                             </div>
                         )}
 
@@ -174,6 +248,8 @@ const App: React.FC = () => {
                             shots={currentShots}
                             onRemoveShot={handleRemoveShot}
                             onAnalyze={handleAnalyzeFromOverlay}
+                            onClose={() => setActivePage('login')}
+                            onToggleFlash={() => console.log('Flash toggle - Not supported on most web browsers')}
                         />
 
                         {isAnalyzing && (
