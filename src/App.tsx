@@ -26,6 +26,8 @@ const App: React.FC = () => {
 
     const [currentShots, setCurrentShots] = useState<string[]>([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [isCapturing, setIsCapturing] = useState(false);
+    const [showShutter, setShowShutter] = useState(false);
     const [activeMode, setActiveMode] = useState<'nutrition' | 'scan' | 'compare'>('scan');
     const [lastAnalysis, setLastAnalysis] = useState<HealthAnalysis | null>(null);
     const [cameraError, setCameraError] = useState<string | null>(null);
@@ -152,25 +154,49 @@ const App: React.FC = () => {
     };
 
     const handleCapture = async () => {
-        if (videoRef.current && canvasRef.current) {
+        if (isCapturing || isAnalyzing || !videoRef.current || !canvasRef.current) {
+            console.warn("Capture blocked:", { isCapturing, isAnalyzing, video: !!videoRef.current, canvas: !!canvasRef.current });
+            return;
+        }
+
+        setIsCapturing(true);
+        setShowShutter(true);
+        setTimeout(() => setShowShutter(false), 150);
+
+        try {
             const video = videoRef.current;
             const canvas = canvasRef.current;
 
-            // Set canvas size to match video resolution
+            // Wait for video to be ready
+            if (video.readyState < 2) {
+                console.warn("Video not ready for capture");
+                setIsCapturing(false);
+                return;
+            }
+
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const base64 = canvas.toDataURL('image/jpeg', 0.85); // Compress slightly for faster upload
-                const newShots = [...currentShots, base64];
-                setCurrentShots(newShots);
+                const base64 = canvas.toDataURL('image/jpeg', 0.85);
 
-                if (activeMode !== 'compare') {
-                    await processAnalysis(newShots);
-                }
+                setCurrentShots(prev => {
+                    const newShots = [...prev, base64];
+                    console.log("Captured shot. Total shots:", newShots.length);
+
+                    if (activeMode !== 'compare') {
+                        processAnalysis(newShots);
+                    }
+                    return newShots;
+                });
             }
+        } catch (e: any) {
+            console.error("Capture failure:", e);
+            setCameraError(`Capture Failed: ${e.message}`);
+        } finally {
+            setIsCapturing(false);
         }
     };
 
@@ -259,6 +285,11 @@ const App: React.FC = () => {
                             muted
                             className="w-full h-full object-cover"
                         />
+
+                        {/* Shutter Flash Effect */}
+                        {showShutter && (
+                            <div className="absolute inset-0 bg-white z-50 animate-pulse"></div>
+                        )}
 
                         {(cameraError || !stream) && (
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 shadow-inner text-slate-400 p-8 text-center z-40">
