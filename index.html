@@ -1,276 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BetterBite | AI Grocery Nutrition Assistant</title>
   <meta name="description"
-    content="Experience premium virtual staging with LuxeStage Studio, the leading luxury AI virtual staging platform. Transform empty rooms into high-end listings instantly with professional AI-powered interior design and 2K rendering." />
+    content="BetterBite uses AI to analyze grocery labels, giving you instant health scores and nutritional insights to help you eat healthier." />
   <meta name="keywords"
-    content="virtual staging, AI real estate, digital furniture, real estate marketing, home staging AI, LuxeStage, professional staging" />
+    content="nutrition assistant, grocery label scanner, healthy eating, AI nutrition, BetterBite" />
   <link rel="canonical" href="https://betterbites.ai" />
 
   <!-- Favicon and App Metadata -->
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="apple-touch-icon" href="/logo.svg">
-  <meta name="msapplication-TileImage" content="/logo.svg">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#102210">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://luxestage.ai" />
-  <meta property="og:title" content="LuxeStage Studio | Luxury AI Virtual Staging for Real Estate" />
-  <meta property="og:description"
-    content="Experience premium virtual staging with LuxeStage Studio, the leading luxury AI virtual staging platform. Transform empty rooms into high-end listings with professional AI design." />
-  <meta property="og:image"
-    content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://luxestage.ai" />
-  <meta name="twitter:title" content="LuxeStage Studio | AI Virtual Staging" />
-  <meta name="twitter:description"
-    content="Experience premium virtual staging with LuxeStage Studio. Transform empty listings into high-end furnished homes with leading luxury AI design." />
-  <meta name="twitter:image"
-    content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" />
-
-  <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
-    [
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "LuxeStage AI",
-        "operatingSystem": "Web",
-        "applicationCategory": "Real Estate / Design Application",
-        "offers": {
-          "@type": "Offer",
-          "price": "0.00",
-          "priceCurrency": "USD"
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec13",
+            "background-light": "#f6f8f6",
+            "background-dark": "#102210",
+          },
+          fontFamily: {
+            "display": ["Lexend", "sans-serif"],
+            "sans": ["Lexend", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
         },
-        "description": "Professional virtual staging using AI in Modern, Farmhouse, and Contemporary styles for real estate listings.",
-        "author": {
-          "@type": "Organization",
-          "name": "LuxeStage AI",
-          "url": "https://luxestage.ai"
-        }
       },
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "LuxeStage AI",
-        "url": "https://luxestage.ai",
-        "logo": "https://luxestage.ai/logo.svg",
-        "sameAs": [
-          "https://purevoice.tech"
-        ],
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "email": "info@purevoice.tech",
-          "contactType": "customer service"
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "LuxeStage AI",
-        "url": "https://luxestage.ai",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://luxestage.ai/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is AI home staging and how does it work?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "AI home staging uses advanced generative models to virtually place furniture and decor in photos of empty rooms. LuxeStage AI uses Google Gemini models to analyze architecture and render realistic textures and lighting instantly."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How accurate is AI staging compared to professional physical staging?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "While physical staging is the gold standard, AI staging provides a high-quality visual representation of a space's potential at a fraction of the cost. LuxeStage AI's 2K Rendering Pro offers high-definition details that closely mimic professional results."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can AI staging be used for vacant or occupied homes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "It works best for vacant homes. LuxeStage AI can also 're-imagine' spaces by providing a fresh furniture layout, though empty rooms typically yield the cleanest results."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is AI staging accepted by real estate platforms like Zillow or Realtor.com?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, though most platforms require a disclosure that images are 'virtually staged' to maintain transparency for potential buyers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How long does it take to get AI-staged images back?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "LuxeStage AI is nearly instant. A 'Quick Draft' takes seconds, and a '2K Rendering Pro' processes in under a minute."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do I need to install software?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, LuxeStage AI is a web-based studio accessible directly from your browser on desktop or mobile."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Are there free AI staging tools available?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, LuxeStage AI offers a free tier with 10 free high-definition images to get agents started."
-            }
-          }
-        ]
-      }
-    ]
+    }
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    h1,
-    h2,
-    h3,
-    .serif {
-      font-family: 'Playfair Display', serif;
-    }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-    }
-
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slow-zoom {
-      from {
-        transform: scale(1);
-      }
-
-      to {
-        transform: scale(1.1);
-      }
-    }
-
-    .animate-fade-in {
-      animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .animate-slow-zoom {
-      animation: slow-zoom 20s linear infinite alternate;
-    }
-  </style>
   <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.4",
-    "@vercel/analytics/react": "https://esm.sh/@vercel/analytics/react",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
-  }
-}
-</script>
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom": "https://esm.sh/react-dom@^19.2.3",
+        "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
+        "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.4"
+      }
+    }
+  </script>
 </head>
 
-<body class="bg-[#fcfcfd] text-slate-900 overflow-x-hidden">
-  <div id="root">
-    <!-- Static content for non-JS SEO crawlers (Expanded for Word Count & Complexity) -->
-    <div style="display:none" aria-hidden="true">
-      <header>
-        <h1>LuxeStage Studio: Luxury AI Virtual Staging</h1>
-        <p>LuxeStage Studio provides a sophisticated suite of luxury AI virtual staging solutions specifically designed
-          for high-performance real estate professionals who require immediate, high-quality transformations of empty
-          properties into stunning, designer-grade homes.</p>
-      </header>
-      <main>
-        <article>
-          <h2>The Evolution of Luxury Virtual Staging with LuxeStage Studio</h2>
-          <p>By integrating advanced artificial intelligence models with a deep understanding of luxury interior design,
-            LuxeStage Studio has pioneered a new category of virtual staging that prioritizes architectural integrity
-            and aesthetic excellence above all else. Our proprietary technology allows real estate agents to furnish
-            vacant listings with incredible precision, ensuring that every digital asset feels authentic to the home's
-            original design language while simultaneously appealing to the most discerning modern luxury buyers.</p>
-
-          <p>The process of luxury AI virtual staging at LuxeStage Studio involves a comprehensive analysis of the
-            property's natural lighting, surface textures, and structural layout to facilitate a seamless transition
-            from a cold, empty room to an inviting, fully-furnished living space. This level of detail is essential for
-            creating high-impact marketing materials that command attention on competitive platforms like Zillow and
-            Realtor.com, ultimately driving higher engagement and faster sales for your listings.</p>
-        </article>
-
-        <section>
-          <h2>Instant AI Interior Design Capabilities</h2>
-          <p>With LuxeStage Studio, users can explore a variety of designer-curated styles, ranging from Minimalist
-            Modern to Rustic Farmhouse and Sleek Contemporary, all of which are rendered with remarkable speed and
-            high-definition clarity. Our AI staging platform is meticulously engineered to handle the complexities of
-            different room types, from expansive open-concept living areas to intimate master suites, providing a
-            versatile tool for every real estate marketing campaign.</p>
-        </section>
-
-        <section>
-          <h2>High-Definition 2K Staging Results</h2>
-          <p>To meet the demands of professional real estate photography, LuxeStage Studio utilizes high-definition 2K
-            rendering processes that capture every minute detail of furniture fabrics, wood grains, and metallic
-            finishes. This commitment to quality ensures that your virtually staged images stand up to close scrutiny
-            and provide a professional, trustworthy representation of the property's potential to prospective homeowners
-            and investors alike.</p>
-        </section>
-
-        <nav>
-          <a href="https://luxestage.ai/pricing">View Staging Pricing Plans</a>
-          <a href="https://luxestage.ai/about">Read Our Vision for AI Staging</a>
-          <a href="https://purevoice.tech">Powered by PureVoice Technology</a>
-          <a href="https://luxestage.ai/portfolio">Browse Our Staging Portfolio</a>
-        </nav>
-      </main>
-    </div>
-  </div>
-  <script type="module" src="src/index.tsx"></script>
+<body
+  class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
 </body>
 
 </html>

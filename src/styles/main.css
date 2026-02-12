@@ -8,6 +8,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: max(884px, 100dvh);
   }
 }
 
@@ -33,14 +34,28 @@
   animation: scan 2s linear infinite;
 }
 
-/* Custom transitions */
-.page-enter {
-  opacity: 0;
-  transform: translateY(20px);
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom transitions */
+.animate-in {
+  animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
