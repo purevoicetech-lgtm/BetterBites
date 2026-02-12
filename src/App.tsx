@@ -96,6 +96,12 @@ const App: React.FC = () => {
         }
     };
 
+    const getScoreColorClass = (score: number) => {
+        if (score < 40) return 'text-rose-500';
+        if (score < 75) return 'text-amber-400';
+        return 'text-primary';
+    };
+
     const startCamera = async () => {
         setCameraError(null);
 
@@ -417,10 +423,10 @@ const App: React.FC = () => {
                                                 <div className="mt-4 relative w-24 h-24 mx-auto flex items-center justify-center">
                                                     <svg className="w-full h-full -rotate-90">
                                                         <circle className="text-slate-100 dark:text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="8"></circle>
-                                                        <circle className="text-primary transition-all duration-1000 ease-out" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 100)} strokeWidth="8" strokeLinecap="round"></circle>
+                                                        <circle className={`${getScoreColorClass(product.score)} transition-all duration-1000 ease-out`} cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 100)} strokeWidth="8" strokeLinecap="round"></circle>
                                                     </svg>
                                                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                                        <span className="text-2xl font-bold">{product.score}</span>
+                                                        <span className={`text-2xl font-bold ${getScoreColorClass(product.score)}`}>{product.score}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -477,15 +483,15 @@ const App: React.FC = () => {
                                     <div className="relative w-36 h-36 flex items-center justify-center">
                                         <svg className="w-full h-full -rotate-90">
                                             <circle className="text-slate-100 dark:text-slate-800" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeWidth="12"></circle>
-                                            <circle className="text-primary transition-all duration-1000 ease-out" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 100)} strokeWidth="12" strokeLinecap="round"></circle>
+                                            <circle className={`${getScoreColorClass(lastAnalysis.score)} transition-all duration-1000 ease-out`} cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 100)} strokeWidth="12" strokeLinecap="round"></circle>
                                         </svg>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-5xl font-bold tracking-tighter">{lastAnalysis.score}</span>
+                                            <span className={`text-5xl font-bold tracking-tighter ${getScoreColorClass(lastAnalysis.score)}`}>{lastAnalysis.score}</span>
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Score</span>
                                         </div>
                                     </div>
-                                    <div className="mt-4 px-4 py-1.5 bg-primary/10 rounded-full">
-                                        <p className="text-xs font-bold text-primary uppercase tracking-widest">
+                                    <div className={`mt-4 px-4 py-1.5 rounded-full ${getScoreColorClass(lastAnalysis.score).replace('text-', 'bg-')}/10`}>
+                                        <p className={`text-xs font-bold uppercase tracking-widest ${getScoreColorClass(lastAnalysis.score)}`}>
                                             {lastAnalysis.score >= 80 ? 'Excellent Choice' : lastAnalysis.score >= 60 ? 'Good Choice' : 'Consume Moderately'}
                                         </p>
                                     </div>
