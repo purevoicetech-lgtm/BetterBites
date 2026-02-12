@@ -28,6 +28,7 @@ const App: React.FC = () => {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [activeMode, setActiveMode] = useState<'nutrition' | 'scan' | 'compare'>('scan');
     const [lastAnalysis, setLastAnalysis] = useState<HealthAnalysis | null>(null);
+    const [cameraError, setCameraError] = useState<string | null>(null);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -92,23 +93,54 @@ const App: React.FC = () => {
     };
 
     const startCamera = async () => {
+        setCameraError(null);
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            setCameraError("Your browser does not support camera access.");
+            return;
+        }
+
         try {
+            // First attempt: High resolution back camera
             const mediaStream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    facingMode: 'environment', // Always prefer back camera for scanning
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 }
+                    facingMode: { exact: 'environment' },
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
                 },
                 audio: false
+            }).catch(async () => {
+                // Second attempt: Fallback to any back camera
+                console.warn("Exact environment camera failed, falling back to any video device.");
+                return await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' },
+                    audio: false
+                });
+            }).catch(async () => {
+                // Third attempt: Minimalist constraints
+                console.warn("Back camera failed, trying simplest constraints.");
+                return await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                });
             });
+
             if (videoRef.current) {
                 videoRef.current.srcObject = mediaStream;
+                // Force play to ensure mobile browsers start the stream
+                try {
+                    await videoRef.current.play();
+                } catch (playErr) {
+                    console.error("Video play failed:", playErr);
+                }
             }
             setStream(mediaStream);
-        } catch (err) {
-            console.error("Camera access denied or failed:", err);
-            // Fallback: alert the user
-            alert("BetterBite needs camera access to scan labels. Please enable permissions in your browser settings.");
+        } catch (err: any) {
+            console.error("All camera attempts failed:", err);
+            const errorMsg = err.name === 'NotAllowedError' ?
+                "Camera permission was denied. Please check your browser settings." :
+                `Camera Error: ${err.message || "Could not access camera"}`;
+            setCameraError(errorMsg);
         }
     };
 
