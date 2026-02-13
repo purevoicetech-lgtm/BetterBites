@@ -50,7 +50,7 @@ const App: React.FC = () => {
         };
         checkUser();
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
             if (session) {
                 setUser(prev => ({ ...prev, isLoggedIn: true }));
                 syncUserData(session.user.id);
@@ -100,6 +100,45 @@ const App: React.FC = () => {
         if (score < 4) return 'text-rose-500';
         if (score < 7.5) return 'text-amber-400';
         return 'text-primary';
+    };
+
+    const HealthPointRow: React.FC<{
+        point: string | import('./types').HealthPoint;
+        type: 'pro' | 'con';
+    }> = ({ point, type }) => {
+        const [isExpanded, setIsExpanded] = useState(false);
+        const title = typeof point === 'string' ? point : point.title;
+        const detail = typeof point === 'string' ? null : point.detail;
+        const colorClass = type === 'pro' ? 'text-primary' : 'text-rose-400';
+        const icon = type === 'pro' ? 'check_circle' : 'report_problem';
+        const bgColor = type === 'pro' ? 'bg-slate-50 dark:bg-slate-800/50' : 'bg-rose-50/50 dark:bg-rose-900/10';
+        const borderColor = type === 'pro' ? 'border-slate-100 dark:border-slate-800' : 'border-rose-100/50 dark:border-rose-900/20';
+
+        return (
+            <div
+                onClick={() => detail && setIsExpanded(!isExpanded)}
+                className={`flex flex-col gap-2 ${bgColor} p-3 rounded-xl border ${borderColor} transition-all duration-200 ${detail ? 'cursor-pointer active:scale-[0.98]' : ''}`}
+            >
+                <div className="flex items-start gap-3">
+                    <span className={`material-icons-round ${colorClass} text-xl flex-shrink-0`}>{icon}</span>
+                    <div className="flex-1 flex items-center justify-between">
+                        <span className="text-xs font-medium leading-tight">{title}</span>
+                        {detail && (
+                            <span className={`material-icons-round text-slate-400 text-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                                expand_more
+                            </span>
+                        )}
+                    </div>
+                </div>
+                {isExpanded && detail && (
+                    <div className="pl-8 pr-2 pb-1 animate-in slide-in-from-top-2 duration-300">
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed italic border-l-2 border-slate-200 dark:border-slate-700 pl-3">
+                            {detail}
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
     };
 
     const startCamera = async () => {
@@ -438,7 +477,7 @@ const App: React.FC = () => {
                                                         {product.pros.slice(0, 2).map((p, i) => (
                                                             <div key={i} className="flex items-center gap-2 text-[11px]">
                                                                 <span className="material-icons text-primary text-xs">check</span>
-                                                                <span>{p}</span>
+                                                                <span>{typeof p === 'string' ? p : p.title}</span>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -449,7 +488,7 @@ const App: React.FC = () => {
                                                         {product.cons.slice(0, 2).map((c, i) => (
                                                             <div key={i} className="flex items-center gap-2 text-[11px]">
                                                                 <span className="material-icons text-rose-400 text-xs">close</span>
-                                                                <span>{c}</span>
+                                                                <span>{typeof c === 'string' ? c : c.title}</span>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -502,24 +541,18 @@ const App: React.FC = () => {
                                 {/* Analysis Lists */}
                                 <div className="space-y-6">
                                     <div>
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary mb-3">Key Benefits</h4>
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary mb-3 px-1">Key Benefits</h4>
                                         <div className="space-y-3">
                                             {lastAnalysis.pros.map((pro, i) => (
-                                                <div key={i} className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                                                    <span className="material-icons-round text-primary text-xl">check_circle</span>
-                                                    <span className="text-xs font-medium leading-tight">{pro}</span>
-                                                </div>
+                                                <HealthPointRow key={i} point={pro} type="pro" />
                                             ))}
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-500 mb-3">Health Considerations</h4>
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-500 mb-3 px-1">Health Considerations</h4>
                                         <div className="space-y-3">
                                             {lastAnalysis.cons.map((con, i) => (
-                                                <div key={i} className="flex items-start gap-3 bg-rose-50/50 dark:bg-rose-900/10 p-3 rounded-xl border border-rose-100/50 dark:border-rose-900/20">
-                                                    <span className="material-icons-round text-rose-400 text-xl">report_problem</span>
-                                                    <span className="text-xs font-medium leading-tight">{con}</span>
-                                                </div>
+                                                <HealthPointRow key={i} point={con} type="con" />
                                             ))}
                                         </div>
                                     </div>

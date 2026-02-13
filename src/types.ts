@@ -5,12 +5,17 @@ export enum UserTier {
   PREMIUM = 'Premium'
 }
 
+export interface HealthPoint {
+  title: string;
+  detail: string;
+}
+
 export interface HealthAnalysis {
   productName: string;
   score: number;
   explanation: string;
-  pros: string[];
-  cons: string[];
+  pros: (string | HealthPoint)[];
+  cons: (string | HealthPoint)[];
   additives: string[];
   alternatives?: string[];
 }
