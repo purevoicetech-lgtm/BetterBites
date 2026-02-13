@@ -97,8 +97,8 @@ const App: React.FC = () => {
     };
 
     const getScoreColorClass = (score: number) => {
-        if (score < 40) return 'text-rose-500';
-        if (score < 75) return 'text-amber-400';
+        if (score < 4) return 'text-rose-500';
+        if (score < 7.5) return 'text-amber-400';
         return 'text-primary';
     };
 
@@ -423,7 +423,7 @@ const App: React.FC = () => {
                                                 <div className="mt-4 relative w-24 h-24 mx-auto flex items-center justify-center">
                                                     <svg className="w-full h-full -rotate-90">
                                                         <circle className="text-slate-100 dark:text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="8"></circle>
-                                                        <circle className={`${getScoreColorClass(product.score)} transition-all duration-1000 ease-out`} cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 100)} strokeWidth="8" strokeLinecap="round"></circle>
+                                                        <circle className={`${getScoreColorClass(product.score)} transition-all duration-1000 ease-out`} cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 10)} strokeWidth="8" strokeLinecap="round"></circle>
                                                     </svg>
                                                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                                                         <span className={`text-2xl font-bold ${getScoreColorClass(product.score)}`}>{product.score}</span>
@@ -470,14 +470,14 @@ const App: React.FC = () => {
                                 {/* Healthiest Choice Badge */}
                                 <div className={`absolute top-0 right-0 ${getScoreColorClass(lastAnalysis.score).replace('text-', 'bg-')}/20 ${getScoreColorClass(lastAnalysis.score)} text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-2xl flex items-center gap-1`}>
                                     <span className="material-icons-round text-xs">
-                                        {lastAnalysis.score >= 75 ? 'verified' : lastAnalysis.score >= 40 ? 'info' : 'report'}
+                                        {lastAnalysis.score >= 7.5 ? 'verified' : lastAnalysis.score >= 4 ? 'info' : 'report'}
                                     </span>
-                                    {lastAnalysis.score >= 75 ? 'High Score' : lastAnalysis.score >= 40 ? 'Mid Score' : 'Low Score'}
+                                    {lastAnalysis.score >= 7.5 ? 'High Score' : lastAnalysis.score >= 4 ? 'Mid Score' : 'Low Score'}
                                 </div>
 
                                 <div className="text-center mb-6">
                                     <h3 className="font-bold text-xl leading-snug px-4">{lastAnalysis.productName}</h3>
-                                    <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] mt-2">Analysis by Gemini Flash</p>
+                                    <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] mt-2">The score below is based out of 1-10</p>
                                 </div>
 
                                 {/* Score Gauge */}
@@ -485,7 +485,7 @@ const App: React.FC = () => {
                                     <div className="relative w-36 h-36 flex items-center justify-center">
                                         <svg className="w-full h-full -rotate-90">
                                             <circle className="text-slate-100 dark:text-slate-800" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeWidth="12"></circle>
-                                            <circle className={`${getScoreColorClass(lastAnalysis.score)} transition-all duration-1000 ease-out`} cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 100)} strokeWidth="12" strokeLinecap="round"></circle>
+                                            <circle className={`${getScoreColorClass(lastAnalysis.score)} transition-all duration-1000 ease-out`} cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 10)} strokeWidth="12" strokeLinecap="round"></circle>
                                         </svg>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                                             <span className={`text-5xl font-bold tracking-tighter ${getScoreColorClass(lastAnalysis.score)}`}>{lastAnalysis.score}</span>
@@ -494,7 +494,7 @@ const App: React.FC = () => {
                                     </div>
                                     <div className={`mt-4 px-4 py-1.5 rounded-full ${getScoreColorClass(lastAnalysis.score).replace('text-', 'bg-')}/10`}>
                                         <p className={`text-xs font-bold uppercase tracking-widest ${getScoreColorClass(lastAnalysis.score)}`}>
-                                            {lastAnalysis.score >= 80 ? 'Excellent Choice' : lastAnalysis.score >= 60 ? 'Good Choice' : 'Consume Moderately'}
+                                            {lastAnalysis.score >= 8 ? 'Excellent Choice' : lastAnalysis.score >= 6 ? 'Good Choice' : 'Consume Moderately'}
                                         </p>
                                     </div>
                                 </div>
