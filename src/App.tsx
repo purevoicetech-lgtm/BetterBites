@@ -313,7 +313,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="h-screen w-full max-w-md mx-auto flex flex-col overflow-hidden shadow-2xl bg-black font-display">
+        <div className="min-h-screen w-full max-w-md mx-auto flex flex-col relative bg-background-light dark:bg-background-dark font-display">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -689,7 +689,7 @@ const App: React.FC = () => {
             )}
 
             {activePage === 'login' && (
-                <div className="flex-1 flex flex-col items-center justify-center p-8 bg-background-light dark:bg-background-dark font-display relative overflow-hidden">
+                <div className="flex-1 min-h-[85vh] flex flex-col items-center justify-center p-8 bg-background-light dark:bg-background-dark font-display relative">
                     {/* Back Button */}
                     <button
                         onClick={() => setActivePage('camera')}
