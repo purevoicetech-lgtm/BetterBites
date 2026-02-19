@@ -729,6 +729,48 @@ const App: React.FC = () => {
                     </div>
                 </div>
             )}
+            {/* Semantic SEO/AEO Content - Visible but placed at the bottom for AI indexing */}
+            <footer className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-12 px-8 overflow-hidden">
+                <div className="max-w-2xl mx-auto">
+                    <section className="mb-10">
+                        <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4">How BetterBite Works</h2>
+                        <p className="text-slate-500 text-xs leading-relaxed">
+                            BetterBite is a state-of-the-art AI nutrition assistant designed to decode complex food labels instantly.
+                            Using advanced computer vision and generative AI, our scanner analyzes nutrition facts, ingredient lists,
+                            and food additives to provide a transparent Health Score from 1 to 10. Whether you're tracking calories,
+                            avoiding ultra-processed foods, or comparing grocery items, BetterBite gives you scientific clarity for healthier choices.
+                        </p>
+                    </section>
+
+                    <section className="mb-10">
+                        <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4">Frequently Asked Questions</h2>
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-xs font-bold mb-2">How is the Health Score calculated?</h3>
+                                <p className="text-slate-500 text-[11px] leading-relaxed">
+                                    Our AI calculates scores based on nutritional density, levels of processing (NOVA scale),
+                                    and the presence of harmful additives. A score of 7.5 or higher indicates a highly nutritious choice.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 className="text-xs font-bold mb-2">Can BetterBite scan any product?</h3>
+                                <p className="text-slate-500 text-[11px] leading-relaxed">
+                                    Yes, BetterBite can analyze most packaged grocery items by scanning their nutrition labels and ingredient lists.
+                                    It's perfect for identifying hidden sugars, artificial sweeteners like Sorbitol, and healthy alternatives.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div className="pt-8 border-t border-slate-50 dark:border-slate-800 flex justify-between items-center text-[10px] text-slate-400 font-medium uppercase tracking-widest">
+                        <span>&copy; 2026 BetterBite AI</span>
+                        <div className="flex gap-4">
+                            <span>Privacy</span>
+                            <span>Terms</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };
