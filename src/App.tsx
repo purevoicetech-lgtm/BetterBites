@@ -460,7 +460,7 @@ const App: React.FC = () => {
                                                 <h3 className="font-bold text-lg leading-tight h-12 flex items-center justify-center">{product.productName}</h3>
 
                                                 <div className="mt-4 relative w-24 h-24 mx-auto flex items-center justify-center">
-                                                    <svg className="w-full h-full -rotate-90">
+                                                    <svg className="w-full h-full -rotate-90" role="img" aria-label={`Health score gauge: ${product.score} out of 10`}>
                                                         <circle className="text-slate-100 dark:text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="8"></circle>
                                                         <circle className={`${getScoreColorClass(product.score)} transition-all duration-1000 ease-out`} cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.32" strokeDashoffset={251.32 * (1 - product.score / 10)} strokeWidth="8" strokeLinecap="round"></circle>
                                                     </svg>
@@ -522,7 +522,7 @@ const App: React.FC = () => {
                                 {/* Score Gauge */}
                                 <div className="flex flex-col items-center justify-center mb-8">
                                     <div className="relative w-36 h-36 flex items-center justify-center">
-                                        <svg className="w-full h-full -rotate-90">
+                                        <svg className="w-full h-full -rotate-90" role="img" aria-label={`Health score gauge: ${lastAnalysis.score} out of 10`}>
                                             <circle className="text-slate-100 dark:text-slate-800" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeWidth="12"></circle>
                                             <circle className={`${getScoreColorClass(lastAnalysis.score)} transition-all duration-1000 ease-out`} cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" strokeDasharray="402.12" strokeDashoffset={402.12 * (1 - lastAnalysis.score / 10)} strokeWidth="12" strokeLinecap="round"></circle>
                                         </svg>

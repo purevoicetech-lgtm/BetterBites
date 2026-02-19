@@ -65,6 +65,7 @@ export const CameraControls: React.FC<CameraControlsProps> = ({
                         <div className="absolute w-24 h-24 rounded-full border-4 border-primary/20"></div>
                         <button
                             onClick={onCapture}
+                            aria-label="Capture photo"
                             className="w-20 h-20 rounded-full bg-white dark:bg-slate-900 border-[6px] border-primary shadow-xl active:scale-[0.9] transition-transform flex items-center justify-center z-10"
                         >
                             <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
@@ -74,7 +75,7 @@ export const CameraControls: React.FC<CameraControlsProps> = ({
                     </div>
 
                     {/* Upload Shortcut */}
-                    <button onClick={onUpload} className="flex flex-col items-center gap-1 group">
+                    <button onClick={onUpload} aria-label="Upload photo from library" className="flex flex-col items-center gap-1 group">
                         <div className="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm active:scale-95 transition-transform bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
                             <span className="material-icons-round text-slate-500 dark:text-slate-400 text-xl">file_upload</span>
                         </div>

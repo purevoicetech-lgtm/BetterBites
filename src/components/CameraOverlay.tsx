@@ -44,7 +44,7 @@ export const CameraOverlay: React.FC<CameraOverlayProps> = ({
 
             {/* Top Navigation */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
-                <button onClick={onClose} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white pointer-events-auto active:scale-95 transition-transform">
+                <button onClick={onClose} aria-label="Close camera" className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white pointer-events-auto active:scale-95 transition-transform">
                     <span className="material-icons-round">close</span>
                 </button>
 
@@ -53,7 +53,7 @@ export const CameraOverlay: React.FC<CameraOverlayProps> = ({
                     <span className="text-xs font-medium text-white tracking-wide uppercase">{scansRemaining} free scans remaining</span>
                 </div>
 
-                <button onClick={onToggleFlash} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white pointer-events-auto active:scale-95 transition-transform">
+                <button onClick={onToggleFlash} aria-label="Toggle camera flash" className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white pointer-events-auto active:scale-95 transition-transform">
                     <span className="material-icons-round">flash_on</span>
                 </button>
             </div>
@@ -70,7 +70,7 @@ export const CameraOverlay: React.FC<CameraOverlayProps> = ({
                             {shots.map((shot, i) => (
                                 <div key={i} className="relative flex-shrink-0">
                                     <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-primary/40 bg-white">
-                                        <img src={shot} className="w-full h-full object-cover" alt="Scan item" />
+                                        <img src={shot} className="w-full h-full object-cover" alt={`Captured product scan preview ${i + 1}`} />
                                     </div>
                                     <button
                                         onClick={() => onRemoveShot(i)}
