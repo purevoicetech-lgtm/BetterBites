@@ -740,6 +740,13 @@ const App: React.FC = () => {
                             and food additives to provide a transparent Health Score from 1 to 10. Whether you're tracking calories,
                             avoiding ultra-processed foods, or comparing grocery items, BetterBite gives you scientific clarity for healthier choices.
                         </p>
+                        <p className="text-slate-500 text-xs leading-relaxed mt-4">
+                            Our proprietary algorithm evaluates every ingredient against modern food science standards.
+                            By focusing on nutritional density and the level of chemical processing, BetterBite empowers
+                            shoppers to make informed decisions at the supermarket. Our goal is to simplify healthy eating
+                            by removing the guesswork from grocery shopping. Simply point your camera, snap a photo of the
+                            label, and let the AI do the rest.
+                        </p>
                     </section>
 
                     <section className="mb-10">
@@ -757,6 +764,23 @@ const App: React.FC = () => {
                                 <p className="text-slate-500 text-[11px] leading-relaxed">
                                     Yes, BetterBite can analyze most packaged grocery items by scanning their nutrition labels and ingredient lists.
                                     It's perfect for identifying hidden sugars, artificial sweeteners like Sorbitol, and healthy alternatives.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 className="text-xs font-bold mb-2">Is BetterBite focused on specific diets?</h3>
+                                <p className="text-slate-500 text-[11px] leading-relaxed">
+                                    While search engines and users often look for Keto, Paleo, or Vegan friendly options, BetterBite focuses
+                                    on overall nutritional quality and ingredient safety. It alerts you to ultra-processed ingredients,
+                                    excessive sodium, and harmful dyes, making it an essential tool for any health-conscious diet.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 className="text-xs font-bold mb-2">Why use an AI Grocery Scanner?</h3>
+                                <p className="text-slate-500 text-[11px] leading-relaxed">
+                                    Reading labels is time-consuming and confusing. An AI grocery scanner like BetterBite
+                                    provides instant analysis, allowing you to compare products in seconds. It uses
+                                    large language models to interpret complex chemical names and identify their
+                                    known health considerations instantly.
                                 </p>
                             </div>
                         </div>
